@@ -19,12 +19,12 @@ public class UserService {
     public static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
-    //private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository /*BCryptPasswordEncoder passwordEncoder*/ ) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        //this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User create(Signup signup) {
@@ -34,7 +34,7 @@ public class UserService {
         user.setName(signup.getFirstname());
         user.setLastname(signup.getLastname());
         user.setUsername(signup.getUsername());
-        user.setPassword(/*passwordEncoder.encode(*/signup.getPassword());
+        user.setPassword(passwordEncoder.encode(signup.getPassword()));
         return user;
     }
 
