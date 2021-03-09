@@ -27,7 +27,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
 
-    @PrePersist
     protected void createPost() {
         this.commentCreatedTime = LocalDateTime.now();
     }

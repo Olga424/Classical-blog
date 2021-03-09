@@ -19,9 +19,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String caption;
-    private String location;
+    private String content;
     private Integer likes;
 
     @Column
@@ -32,10 +30,10 @@ public class Post {
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
     @Column
-    private LocalDateTime postCreatedDate;
+    private LocalDateTime postCreatedTime;
 
     protected void createPost() {
-        this.postCreatedDate = LocalDateTime.now();
+        this.postCreatedTime = LocalDateTime.now();
     }
 }
 
