@@ -1,11 +1,11 @@
-package com.demoblog.authentication;
+package com.demoblog.auth_format;
 
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 
 @Getter
-public class Login {
+public class LoginFormat {
 
     @NotEmpty(message = "Username is required")
     private String username;

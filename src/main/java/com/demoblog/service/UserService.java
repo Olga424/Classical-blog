@@ -1,6 +1,6 @@
 package com.demoblog.service;
 
-import com.demoblog.authentication.Signup;
+import com.demoblog.auth_format.SignupFormat;
 import com.demoblog.exception.UserAlreadyExistsException;
 import com.demoblog.exception.UserNotFoundException;
 import com.demoblog.model.dto.UserDTO;
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserNotFoundException("User with username " + username + " not found"));
     }
 
-    public User create(Signup signup) {
+    public User create(SignupFormat signup) {
         User user = new User();
 
         user.setEmail(signup.getEmail());
@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void createUser(Signup signup) {
+    public void createUser(SignupFormat signup) {
         User user = create(signup);
         user.getRoles().add(Roles.USER);
 
@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void createAdmin(Signup signup) {
+    public void createAdmin(SignupFormat signup) {
         User admin = create(signup);
         admin.getRoles().add(Roles.ADMIN);
 
