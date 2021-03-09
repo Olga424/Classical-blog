@@ -22,7 +22,7 @@ public class UserDTO {
         userDTO.setUsername(user.getUsername());
         userDTO.setFirstname(user.getName());
         userDTO.setLastname(user.getLastname());
-        userDTO.setBio(user.getBio());
+        userDTO.setBio(user.getBiography());
         return userDTO;
     }
 

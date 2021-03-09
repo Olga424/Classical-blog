@@ -1,5 +1,6 @@
 package com.demoblog.model.entity;
 
+import com.demoblog.model.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +28,10 @@ public class User implements UserDetails {
     private String lastname;
     @Column(unique = true)
     private String email;
+    @Column
+    private Roles role;
     @Column(columnDefinition = "text")
-    private String bio;
+    private String biography;
     @Column
     private String password;
 
@@ -38,13 +41,11 @@ public class User implements UserDetails {
     @Column
     private LocalDateTime userCreatedTime;
 
-    public User(Long id,
-                String username,
-                String email,
-                String password) {
+    public User(Long id, String username, String email, Roles role, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.role = role;
         this.password = password;
     }
 
