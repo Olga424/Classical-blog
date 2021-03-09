@@ -20,7 +20,7 @@ public class UserDTO {
 
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
-        userDTO.setFirstname(user.getName());
+        userDTO.setFirstname(user.getFirstname());
         userDTO.setLastname(user.getLastname());
         userDTO.setBio(user.getBiography());
         return userDTO;

@@ -47,7 +47,7 @@ public class PostService {
         return postRepository.findAllByOrderByPostCreatedTimeDesc();
     }
 
-    public Post getPostById(Long postId, Long userId) {
+    public Post getPostById(Long userId, Long postId) {
         User user = userService.getUserById(userId);
 
         LOG.info("get post with id " + postId + " for user " + user.getUsername());

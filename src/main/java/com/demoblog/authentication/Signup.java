@@ -1,27 +1,24 @@
 package com.demoblog.authentication;
 
-import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
-@Getter
+@Getter @Setter
 public class Signup {
 
-    @Email(message = "The field has to have an email format.")
-    @NotBlank(message = "Email is required.")
+    @Email
+    @NotEmpty
     private String email;
-    @NotEmpty(message = "Name is required.")
+    @NotEmpty
     private String firstname;
-    @NotEmpty(message = "Lastname is required.")
+    @NotEmpty
     private String lastname;
-    @NotEmpty(message = "Username is required.")
+    @NotEmpty
     private String username;
-    @NotEmpty(message = "Password is required")
-    @Size(min = 6)
+    @NotEmpty
     private String password;
 
 }

@@ -10,11 +10,14 @@ import com.demoblog.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     public static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
@@ -27,37 +30,45 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        LOG.info("Get user with username " + username);
+
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with username " + username + " not found"));
+    }
+
     public User create(Signup signup) {
         User user = new User();
 
         user.setEmail(signup.getEmail());
-        user.setName(signup.getFirstname());
+        user.setFirstname(signup.getFirstname());
         user.setLastname(signup.getLastname());
         user.setUsername(signup.getUsername());
         user.setPassword(passwordEncoder.encode(signup.getPassword()));
         return user;
     }
 
-    public User createUser(Signup signup) {
+    public void createUser(Signup signup) {
         User user = create(signup);
-        user.setRole(Roles.USER);
+        user.getRoles().add(Roles.USER);
 
         try {
             LOG.info("New user with username " + user.getUsername() + " has been registered.");
-            return userRepository.save(user);
+            userRepository.save(user);
         } catch (Exception e) {
             LOG.error("Error while register new user with username " + user.getUsername() + " occurred.", e.getMessage());
             throw new UserAlreadyExistsException("The user with username " + user.getUsername() + " already exists.");
         }
     }
 
-    public User createAdmin(Signup signup) {
+    public void createAdmin(Signup signup) {
         User admin = create(signup);
-        admin.setRole(Roles.ADMIN);
+        admin.getRoles().add(Roles.ADMIN);
 
         try {
             LOG.info("New admin with username " + admin.getUsername() + " has been registered.");
-            return userRepository.save(admin);
+            userRepository.save(admin);
         } catch (Exception e) {
             LOG.error("Error while register new admin with username " + admin.getUsername() + " occurred.", e.getMessage());
             throw new UserAlreadyExistsException("The user with username " + admin.getUsername() + " already exists.");
@@ -67,7 +78,7 @@ public class UserService {
     public User updateUser(UserDTO userDTO, Long userId) {
         User user = getUserById(userId);
 
-        user.setName(userDTO.getFirstname());
+        user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
         user.setBiography(userDTO.getBio());
 

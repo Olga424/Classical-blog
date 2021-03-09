@@ -21,15 +21,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
-    @Column(unique = true, updatable = false)
+    private String firstname;
+    @Column(unique = true)
     private String username;
     @Column(nullable = false)
     private String lastname;
     @Column(unique = true)
     private String email;
-    @Column
-    private Roles role;
+    @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<Roles> roles = new HashSet<>();
     @Column(columnDefinition = "text")
     private String biography;
     @Column
@@ -41,11 +42,10 @@ public class User implements UserDetails {
     @Column
     private LocalDateTime userCreatedTime;
 
-    public User(Long id, String username, String email, Roles role, String password) {
+    public User(Long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.role = role;
         this.password = password;
     }
 
@@ -53,7 +53,7 @@ public class User implements UserDetails {
         this.userCreatedTime = LocalDateTime.now();
     }
 
-    /* SECURITY METHODS */
+    /* UserDetails implementation */
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,5 +79,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
 
