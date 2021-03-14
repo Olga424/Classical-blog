@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String email;
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
     private Set<Roles> roles = new HashSet<>();
     @Column(columnDefinition = "text")
     private String biography;
