@@ -1,6 +1,6 @@
 # Classical Blog 
 A REST application implementing a classical version of a blog site with a possibility to authenticate a user based on his/her role and keeping data in a database.\
-The technology used: Java + Stream API + Spring Boot + Spring Security + JPA + Lombok + MySQL + Log4j.
+The technology used: Java + Stream API + Spring Boot + Spring Security + JPA Hibernate + Lombok + MySQL + Log4j.
 
 ## Functionality
 * User can make a new account, log in to an already existing one, publish a post, add a comment, upload a picture to his/her profile, post and comment, like a post of an other user, as well as update and delete everything what he/she created. 
