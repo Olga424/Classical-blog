@@ -5,7 +5,6 @@ import com.demoblog.exception.UserAlreadyExistsException;
 import com.demoblog.exception.UserNotFoundException;
 import com.demoblog.model.dto.UserDTO;
 import com.demoblog.model.entity.User;
-import com.demoblog.model.enums.Roles;
 import com.demoblog.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +37,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserNotFoundException("User with username " + username + " not found"));
     }
 
-    public User create(SignupFormat signup) {
+    public void createUser(SignupFormat signup) {
         User user = new User();
 
         user.setEmail(signup.getEmail());
@@ -46,32 +45,12 @@ public class UserService implements UserDetailsService {
         user.setLastname(signup.getLastname());
         user.setUsername(signup.getUsername());
         user.setPassword(passwordEncoder.encode(signup.getPassword()));
-        return user;
-    }
-
-    public void createUser(SignupFormat signup) {
-        User user = create(signup);
-        user.getRoles().add(Roles.USER);
-
         try {
             LOG.info("New user with username " + user.getUsername() + " has been registered.");
             userRepository.save(user);
         } catch (Exception e) {
             LOG.error("Error while register new user with username " + user.getUsername() + " occurred.", e.getMessage());
             throw new UserAlreadyExistsException("The user with username " + user.getUsername() + " already exists.");
-        }
-    }
-
-    public void createAdmin(SignupFormat signup) {
-        User admin = create(signup);
-        admin.getRoles().add(Roles.ADMIN);
-
-        try {
-            LOG.info("New admin with username " + admin.getUsername() + " has been registered.");
-            userRepository.save(admin);
-        } catch (Exception e) {
-            LOG.error("Error while register new admin with username " + admin.getUsername() + " occurred.", e.getMessage());
-            throw new UserAlreadyExistsException("The user with username " + admin.getUsername() + " already exists.");
         }
     }
 
