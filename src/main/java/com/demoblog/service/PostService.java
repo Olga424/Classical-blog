@@ -66,7 +66,7 @@ public class PostService {
 
         Optional<String> likedUsers = post.getLikedUsers()
                 .stream()
-                .filter(u -> u.equals(username)).findAny();
+                .filter(user -> user.equals(username)).findAny();
 
         if(likedUsers.isPresent()) {
             post.setLikes(post.getLikes() - 1);
