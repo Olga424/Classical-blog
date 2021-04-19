@@ -7,6 +7,6 @@ The technology used: Java + Stream API + Spring Boot + Spring Security + JPA Hib
 * Administrator has the same rights as the ordinary user with an additional possibility to delete accounts of other people.
 
 ## Additional Information
+* Client part can be found here: https://github.com/Olga424/Classical_Blog_Client
 * The data are kept in a MySQL database.
 * The pictures and photos are commpressed before putting into the database and decompressed before uploading to the application page. 
-* Client part as well as JUnit tests are in the process.
